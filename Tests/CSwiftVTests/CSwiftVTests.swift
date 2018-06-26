@@ -19,6 +19,9 @@ public let newLineSeparationNoCR = "Year,Make,Model,Description,Price\n1997,Ford
 
 public let newLineSeparationNoEnd = "Year,Make,Model,Description,Price\r\n1997,Ford,E350,descrition,3000.00\r\n1999,Chevy,Venture,another description,4900.00"
 
+public let newCRNoNewLine = "Year,Make,Model,Description,Price\r1997,Ford,E350,descrition,3000.00\r1999,Chevy,Venture,another description,4900.00\r"
+
+
 public let withoutHeader = "1997,Ford,E350,descrition,3000.00\r\n1999,Chevy,Venture,another description,4900.00"
 
 public let longerColumns = "Year,Make,Model,Description,Price\r\n1997,Ford,E350,descrition,3000.00\r\n1999,Chevy,Venture,another description,4900.00,extra column\r\n"
@@ -82,6 +85,20 @@ class CSwiftVTests: XCTestCase {
         XCTAssertEqual(arrayUnderTest[1], expectedArray[1])
     }
 
+    func testThatItParsesLinesSeperatedByCRNoNewLine() {
+        testString = newCRNoNewLine
+        
+        let arrayUnderTest =  CSwiftV(with: testString).rows
+        
+        let expectedArray = [
+            ["1997","Ford","E350","descrition","3000.00"],
+            ["1999","Chevy","Venture","another description","4900.00"]
+        ]
+        
+        XCTAssertEqual(arrayUnderTest[0], expectedArray[0])
+        XCTAssertEqual(arrayUnderTest[1], expectedArray[1])
+    }
+    
     //2.  The last record in the file may or may not have an ending line
     //break.  For example:
     
